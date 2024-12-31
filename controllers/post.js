@@ -5,9 +5,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const getPosts = async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 5;
-
   const query = {};
 
   const cat = req.query.cat;
@@ -62,15 +59,8 @@ export const getPosts = async (req, res) => {
     query.isFeatured = true;
   }
 
-  const posts = await Post.find(query)
-    .populate("user", "email")
-    .sort(sortObj)
-    .limit(limit)
-    .skip((page - 1) * limit);
-
-  const totalPosts = await Post.countDocuments();
-  const hasMore = page * limit < totalPosts;
-  res.status(200).json({ posts, hasMore });
+  const posts = await Post.find(query).populate("user", "email").sort(sortObj);
+  res.status(200).json({ posts });
 };
 
 export const getPost = async (req, res) => {
