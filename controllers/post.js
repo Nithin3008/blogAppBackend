@@ -13,7 +13,7 @@ export const getPosts = async (req, res) => {
   const cat = req.query.cat;
   const author = req.query.author;
   const searchQuery = req.query.search;
-  // const sortQuery = req.query.sort;
+  const sortQuery = req.query.sort;
   const featured = req.query.featured;
 
   if (cat) {
@@ -36,8 +36,8 @@ export const getPosts = async (req, res) => {
 
   let sortObj = { createdAt: -1 };
 
-  if (sortObj) {
-    switch (sortObj) {
+  if (sortQuery) {
+    switch (sortQuery) {
       case "newest":
         sortObj = { createdAt: -1 };
         break;
