@@ -44,12 +44,6 @@ export const getPosts = async (req, res) => {
       case "popular":
         sortObj = { visit: -1 };
         break;
-      case "trending":
-        sortObj = { visit: -1 };
-        query.createdAt = {
-          $gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
-        };
-        break;
       default:
         break;
     }
@@ -58,6 +52,8 @@ export const getPosts = async (req, res) => {
   if (featured) {
     query.isFeatured = true;
   }
+
+  console.log(query);
 
   const posts = await Post.find(query).populate("user", "email").sort(sortObj);
   res.status(200).json({ posts });
